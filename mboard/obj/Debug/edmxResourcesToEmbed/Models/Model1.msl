@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="messageModelStoreContainer" CdmEntityContainer="messageEntities">
+    <EntitySetMapping Name="Messageboard">
+      <EntityTypeMapping TypeName="messageModel.Messageboard">
+        <MappingFragment StoreEntitySet="Messageboard">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
+          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="c_name" ColumnName="c_name" />
+          <ScalarProperty Name="c_time" ColumnName="c_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

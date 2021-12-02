@@ -1,0 +1,125 @@
+﻿@model IEnumerable<mboard.Models.Messageboard>
+@{
+    ViewBag.Title = "Home Page";
+}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+        function UpdateJ() {
+            var s_comment = $('#s_comment').val();
+            var temp = '<div id="partialDiv">\
+        <table class="table table-hover">\
+            <tr>\
+                <th>\
+                    ID\
+                </th>\
+                <th>\
+                    comment\
+                </th>\
+                <th>\
+                    name\
+                </th>\
+                <th>\
+                    time\
+                </th>\
+                <th></th>\
+            </tr>';
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Sort", "Home")',
+                data: { s_comment: s_comment},
+                success: function (jsReturnArgs) {
+                    obj = JSON.parse(jsReturnArgs);
+                    obj.forEach(element =>
+                    {
+                        temp += '<tr>\
+                                    <td>'+element.ID + '</td>\
+                                    <td>'+ element.comment +'</td>\
+                                    <td>'+ element.c_name +'</td>\
+                                    <td>'+ element.c_time + '</td>\
+                                 </tr>';
+                    }
+                    )
+                    $('#partialDiv').html(temp + '</table></div >');
+                }
+
+            });
+        }
+</script>
+<div class="jumbotron">
+    <h1>MessageBoard</h1>
+    <p></p>
+    <label>Sort:</label>
+    <input type="text" id="s_comment" name="fname">
+    <input class="btn" type="submit" value="Submit" onclick="UpdateJ()">
+
+    <div id="partialDiv">
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.comment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.c_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.c_time)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                if (item.Parent_ID != 0) { continue; }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_time)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Reply", "Reply", new { id = item.ID })
+                    </td>
+                </tr>
+                foreach (var subtiem in Model)
+                {
+                    if (item.ID == subtiem.Parent_ID)
+                    {
+                        <tr>
+                            <td style="padding-left:50px;">
+                                @Html.DisplayFor(modelItem => subtiem.ID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => subtiem.comment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => subtiem.c_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => subtiem.c_time)
+                            </td>
+                        </tr>
+                    }
+
+                }
+            }
+        </table>
+    </div>
+</div>
+
+
+<p>
+    @Html.ActionLink("Create New", "Add")
+</p>
