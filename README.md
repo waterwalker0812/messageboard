@@ -1,9 +1,9 @@
 # messageboard
-MVC5
-EF6
-AJAX
-HTML
-CSS
-JS
-boomstrap4
-partialview
+MVC5<br>
+EF6<br>
+AJAX<br>
+HTML<br>
+CSS<br>
+JS<br>
+boomstrap4<br>
+partialview<br>
